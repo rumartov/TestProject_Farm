@@ -10,10 +10,7 @@ namespace CodeBase.Services.Input
 
     public abstract Vector2 Axis { get; }
 
-    public bool IsAttackButtonUp()
-    {
-      return SimpleInput.GetButtonUp(Button);
-    }
+    public bool IsActionButtonUp() => SimpleInput.GetButtonUp(Button);
 
     protected static Vector2 SimpleInputAxis()
     {

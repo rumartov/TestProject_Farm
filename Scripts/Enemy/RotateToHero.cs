@@ -19,7 +19,7 @@ namespace CodeBase.Enemy
       if (IsHeroExist())
         InitializeHeroTransform();
       else
-        _gameFactory.HeroCreated += HeroCreated;
+        _gameFactory.PlayerCreated += HeroCreated;
     }
 
     private void Update()
@@ -31,11 +31,11 @@ namespace CodeBase.Enemy
     private void OnDestroy()
     {
       if(_gameFactory != null)
-        _gameFactory.HeroCreated -= HeroCreated;
+        _gameFactory.PlayerCreated -= HeroCreated;
     }
 
     private bool IsHeroExist() => 
-      _gameFactory.HeroGameObject != null;
+      _gameFactory.PlayerGameObject != null;
 
     private void RotateTowardsHero()
     {
@@ -66,6 +66,6 @@ namespace CodeBase.Enemy
       InitializeHeroTransform();
 
     private void InitializeHeroTransform() =>
-      _heroTransform = _gameFactory.HeroGameObject.transform;
+      _heroTransform = _gameFactory.PlayerGameObject.transform;
   }
 }

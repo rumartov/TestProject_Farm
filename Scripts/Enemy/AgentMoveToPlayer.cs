@@ -20,10 +20,10 @@ namespace CodeBase.Enemy
     {
       _gameFactory = AllServices.Container.Single<IGameFactory>();
 
-      if (_gameFactory.HeroGameObject != null)
+      if (_gameFactory.PlayerGameObject != null)
         InitializeHeroTransform();
       else
-        _gameFactory.HeroCreated += HeroCreated;
+        _gameFactory.PlayerCreated += HeroCreated;
     }
 
     private void Update()
@@ -35,7 +35,7 @@ namespace CodeBase.Enemy
     private void OnDestroy()
     {
       if(_gameFactory != null)
-        _gameFactory.HeroCreated -= HeroCreated;
+        _gameFactory.PlayerCreated -= HeroCreated;
     }
 
     private bool IsInitialized() => 
@@ -45,7 +45,7 @@ namespace CodeBase.Enemy
       InitializeHeroTransform();
 
     private void InitializeHeroTransform() =>
-      _heroTransform = _gameFactory.HeroGameObject.transform;
+      _heroTransform = _gameFactory.PlayerGameObject.transform;
 
     private bool IsHeroNotReached() => 
       Agent.transform.position.SqrMagnitudeTo(_heroTransform.position) >= MinimalDistance;

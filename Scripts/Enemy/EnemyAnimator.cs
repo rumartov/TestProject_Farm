@@ -55,9 +55,9 @@ namespace CodeBase.Enemy
       if (stateHash == _idleStateHash)
         state = AnimatorState.Idle;
       else if (stateHash == _attackStateHash)
-        state = AnimatorState.Attack;
+        state = AnimatorState.Slice;
       else if (stateHash == _walkingStateHash)
-        state = AnimatorState.Walking;
+        state = AnimatorState.Run;
       else if (stateHash == _deathStateHash)
         state = AnimatorState.Died;
       else
