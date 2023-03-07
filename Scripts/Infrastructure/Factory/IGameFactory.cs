@@ -15,5 +15,8 @@ namespace CodeBase.Infrastructure.Factory
     event Action PlayerCreated; 
     List<ISavedProgress> ProgressWriters { get; }
     void Cleanup();
+    GameObject CreatePlant(VegetationType vegetationType, Vector3 at, Transform parent);
+    void CreateGarden(GameObject at);
+    string GetVegetationAssetPath(VegetationType vegetationType);
   }
 }

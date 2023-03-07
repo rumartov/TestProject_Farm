@@ -1641,6 +1641,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   CharacterController: {fileID: 9136171042337119616}
+  tool: {fileID: 1106533548898728149}
 --- !u!114 &4794361751554008996
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2083,5 +2084,10 @@ PrefabInstance:
 --- !u!4 &292983337026937455 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5499057094133807294, guid: 6d5c973482b67d04e8b5574a2dc815a5, type: 3}
+  m_PrefabInstance: {fileID: 5206285965017389777}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &1106533548898728149 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5123763656955240964, guid: 6d5c973482b67d04e8b5574a2dc815a5, type: 3}
   m_PrefabInstance: {fileID: 5206285965017389777}
   m_PrefabAsset: {fileID: 0}

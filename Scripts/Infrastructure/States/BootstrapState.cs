@@ -4,6 +4,7 @@ using CodeBase.Infrastructure.Services;
 using CodeBase.Infrastructure.Services.PersistentProgress;
 using CodeBase.Infrastructure.Services.SaveLoad;
 using CodeBase.Services.Input;
+using CodeBase.Services.Randomizer;
 using UnityEngine;
 
 namespace CodeBase.Infrastructure.States
@@ -36,10 +37,13 @@ namespace CodeBase.Infrastructure.States
     private void RegisterServices()
     {
       _services.RegisterSingle<IInputService>(InputService());
+      _services.RegisterSingle<IRandomService>(new RandomService());
       _services.RegisterSingle<IAssetProvider>(new AssetProvider());
       _services.RegisterSingle<IPersistentProgressService>(new PersistentProgressService());
-      _services.RegisterSingle<IGameFactory>(new GameFactory(_services.Single<IAssetProvider>()));
-      _services.RegisterSingle<ISaveLoadService>(new SaveLoadService(_services.Single<IPersistentProgressService>(), _services.Single<IGameFactory>()));
+      _services.RegisterSingle<IGameFactory>(new GameFactory(_services.Single<IAssetProvider>(), 
+        _services.Single<IRandomService>()));
+      _services.RegisterSingle<ISaveLoadService>(new SaveLoadService(_services.Single<IPersistentProgressService>(), 
+        _services.Single<IGameFactory>()));
     }
 
     private void EnterLoadLevel() =>

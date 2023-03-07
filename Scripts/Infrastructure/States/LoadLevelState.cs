@@ -52,7 +52,9 @@ namespace CodeBase.Infrastructure.States
 
     private void InitGameWorld()
     {
-      GameObject hero = _gameFactory.CreatePlayer(GameObject.FindWithTag(InitialPointTag));
+      GameObject spawnPosition = GameObject.FindWithTag(InitialPointTag);
+      GameObject hero = _gameFactory.CreatePlayer(spawnPosition);
+      _gameFactory.CreateGarden(spawnPosition);
       _gameFactory.CreateHud();
 
       CameraFollow(hero);

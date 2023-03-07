@@ -4,5 +4,7 @@ namespace CodeBase.Infrastructure.AssetManagement
   {
     public const string PlayerPath = "Player/Player";
     public const string HudPath = "Hud/Hud";
+    public const string Vegetation = "Vegetation/";
+    public const string Garden = "Vegetation/Garden";
   }
 }
