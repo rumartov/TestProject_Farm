@@ -1,3 +1,4 @@
+using Infrastructure.AssetManagement;
 using UnityEngine;
 
 namespace CodeBase.Infrastructure.AssetManagement

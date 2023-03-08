@@ -2,6 +2,7 @@ using System;
 using CodeBase.Data;
 using CodeBase.Infrastructure.Services.PersistentProgress;
 using CodeBase.Infrastructure.Services.SaveLoad;
+using Services.PersistentProgress;
 
 namespace CodeBase.Infrastructure.States
 {

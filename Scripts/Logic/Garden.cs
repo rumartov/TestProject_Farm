@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using CodeBase.Infrastructure.Factory;
+using Services.StaticData;
 using UnityEngine;
 
 public class Garden : MonoBehaviour
@@ -8,12 +9,14 @@ public class Garden : MonoBehaviour
     private VegetationType _vegetationType;
     private List<Sprout> _sprouts;
     private IGameFactory _factory;
-    
-    public void Construct(VegetationType vegetationType, IGameFactory factory)
+    private IStaticDataService _staticDataService;
+
+    public void Construct(VegetationType vegetationType, IGameFactory factory, IStaticDataService staticDataService)
     {
         _vegetationType = vegetationType;
         _factory = factory;
-
+        _staticDataService = staticDataService;
+        
         _sprouts = new List<Sprout>(GetComponentsInChildren<Sprout>());
         ConstructSprouts();
     }
@@ -22,12 +25,7 @@ public class Garden : MonoBehaviour
     {
         foreach (Sprout sprout in _sprouts)
         {
-            sprout.Construct(_vegetationType, _factory);
+            sprout.Construct(_vegetationType, _factory, _staticDataService);
         }
     }
-}
-
-public enum VegetationType
-{
-    Wheat
 }

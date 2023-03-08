@@ -1,6 +1,7 @@
 using CodeBase.Enemy;
 using CodeBase.Hero;
 using CodeBase.Infrastructure.Services;
+using CodeBase.Services;
 using CodeBase.Services.Input;
 using UnityEngine;
 
@@ -33,6 +34,8 @@ public class PlayerAction : MonoBehaviour
         }
     }
     
+    //TODO Add OnTriggerEnter Slice Implementation
+
     private void OnAction()
     {
         PhysicsDebug.DrawDebug(StartPoint() + transform.forward, _radius, 1.0f);

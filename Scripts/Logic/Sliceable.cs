@@ -26,7 +26,6 @@ public class Sliceable : MonoBehaviour
             {
                 Rigidbody rigidbody = AddRigidbodyToSlice(slice);
                 AddBoxCollidersToSlice(slice, rigidbody);
-   
             }
             DestroyParts(slice);
         }
@@ -37,11 +36,6 @@ public class Sliceable : MonoBehaviour
     private void SetSliceLayer(GameObject slice)
     {
         slice.layer = LayerMask.NameToLayer("Sliceable");
-    }
-
-    private void SetSliceScale(GameObject slice)
-    {
-        slice.transform.localScale = transform.lossyScale;
     }
 
     private Rigidbody AddRigidbodyToSlice(GameObject slice)
@@ -59,7 +53,7 @@ public class Sliceable : MonoBehaviour
         BoxCollider boxCollider = slice.GetComponent<BoxCollider>();
         Vector3 boxColliderSize = boxCollider.size;
         boxCollider.size = new Vector3(boxColliderSize.x, boxColliderSize.y, 0);
-        //component.AddForce(new Vector3(5,5,5));
+        component.AddForce(Vector3.left);
     }
 
     private void DestroyParts(GameObject slice)

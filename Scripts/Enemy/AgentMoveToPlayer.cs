@@ -2,6 +2,7 @@ using System;
 using CodeBase.Data;
 using CodeBase.Infrastructure.Factory;
 using CodeBase.Infrastructure.Services;
+using CodeBase.Services;
 using UnityEngine;
 using UnityEngine.AI;
 

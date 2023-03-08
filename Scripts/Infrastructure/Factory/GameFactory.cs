@@ -1,17 +1,21 @@
 using System;
 using System.Collections.Generic;
 using CodeBase.Infrastructure.AssetManagement;
+using CodeBase.Infrastructure.Factory;
 using CodeBase.Infrastructure.Services.PersistentProgress;
 using CodeBase.Services.Randomizer;
 using DefaultNamespace;
+using Infrastructure.AssetManagement;
+using Services.StaticData;
 using UnityEngine;
 
-namespace CodeBase.Infrastructure.Factory
+namespace Infrastructure.Factory
 {
   public class GameFactory : IGameFactory
   {
     private readonly IAssetProvider _assets;
     private readonly IRandomService _randomService;
+    private readonly IStaticDataService _staticDataService;
 
     public List<ISavedProgressReader> ProgressReaders { get; } = new List<ISavedProgressReader>();
     public List<ISavedProgress> ProgressWriters { get; } = new List<ISavedProgress>();
@@ -19,10 +23,11 @@ namespace CodeBase.Infrastructure.Factory
     public GameObject PlayerGameObject { get; set; }
     public event Action PlayerCreated;
 
-    public GameFactory(IAssetProvider assets, IRandomService randomService)
+    public GameFactory(IAssetProvider assets, IRandomService randomService, IStaticDataService staticDataService)
     {
       _assets = assets;
       _randomService = randomService;
+      _staticDataService = staticDataService;
     }
 
     public GameObject CreatePlayer(GameObject at)
@@ -35,7 +40,7 @@ namespace CodeBase.Infrastructure.Factory
     public void CreateGarden(GameObject at)
     { 
       GameObject garden = InstantiateRegistered(AssetPath.Garden, at.transform.position);
-      garden.GetComponent<Garden>().Construct(VegetationType.Wheat, this);
+      garden.GetComponent<Garden>().Construct(VegetationType.Wheat, this, _staticDataService);
     }
 
     public GameObject CreatePlant(VegetationType vegetationType, Vector3 at, Transform parent)

@@ -1,23 +1,26 @@
 using CodeBase.Infrastructure.Factory;
+using Services.StaticData;
 using UnityEngine;
 
 public class Sprout : MonoBehaviour
 {
-    // TODO add static data
-    public float GrowTime = 100;
+    private float _growTime;
+
+    private IStaticDataService _staticDataService;
+    private IGameFactory _factory;
     
     private VegetationType _vegetationType;
     private float _growTimer;
-    private IGameFactory _factory;
     private bool _isCropped;
     private GameObject _plant;
 
-    public void Construct(VegetationType vegetationType, IGameFactory factory)
+    public void Construct(VegetationType vegetationType, IGameFactory factory, IStaticDataService staticDataService)
     {
         _factory = factory;
+        _staticDataService = staticDataService;
         _vegetationType = vegetationType;
         _isCropped = true;
-        GrowTime = 100;
+        _growTime = _staticDataService.ForPlant(vegetationType).GrowTime;
     }
 
     private void Update()
@@ -84,6 +87,6 @@ public class Sprout : MonoBehaviour
 
     private void ResetGrowTimer()
     {
-        _growTimer = GrowTime;
+        _growTimer = _growTime;
     }
 }
