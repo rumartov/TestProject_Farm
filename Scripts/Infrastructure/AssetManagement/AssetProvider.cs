@@ -5,8 +5,6 @@ namespace CodeBase.Infrastructure.AssetManagement
 {
   public class AssetProvider : IAssetProvider
   {
-    private IAssetProvider assetProviderImplementation;
-
     public GameObject Instantiate(string path, Vector3 at, Quaternion quaternion)
     {
       var prefab = Resources.Load<GameObject>(path);

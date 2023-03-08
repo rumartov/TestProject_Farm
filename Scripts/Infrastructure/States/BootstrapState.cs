@@ -52,7 +52,8 @@ namespace Infrastructure.States
       _services.RegisterSingle<IGameFactory>(new GameFactory(
         _services.Single<IAssetProvider>(), 
         _services.Single<IRandomService>(), 
-        _services.Single<IStaticDataService>()));
+        _services.Single<IStaticDataService>(),
+        _services.Single<IInputService>()));
       _services.RegisterSingle<ISaveLoadService>(new SaveLoadService(_services.Single<IPersistentProgressService>(), 
         _services.Single<IGameFactory>()));
     }

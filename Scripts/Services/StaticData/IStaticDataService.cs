@@ -7,5 +7,6 @@ namespace Services.StaticData
   {
     void Load();
     PlantStaticData ForPlant(VegetationType typeId);
+    PlayerStaticData ForPlayer();
   }
 }

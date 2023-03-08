@@ -246,6 +246,57 @@ Transform:
   m_Father: {fileID: 190152975345948468}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1294717919547059278
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1176087654467238650}
+  - component: {fileID: 7009540290038765302}
+  m_Layer: 0
+  m_Name: Backpack
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1176087654467238650
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1294717919547059278}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0.8, z: -0.2}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 7710434506768495576}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &7009540290038765302
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1294717919547059278}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d6d5a3f4ff5bb59458fccaf8eb1c5729, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  XBackpackPositionCoef: -0.25
+  YBackpackPositionCoef: 0
+  ZBackpackPositionCoef: -0.25
+  XBackpackRotationCoef: 0
+  YBackpackRotationCoef: 120
+  ZBackpackRotationCoef: 0
+  positionRootBone: {fileID: 8883504014254141613}
+  rotationRootBone: {fileID: 7710434506768495576}
 --- !u!1 &1475520483864678227
 GameObject:
   m_ObjectHideFlags: 0
@@ -1568,9 +1619,10 @@ GameObject:
   - component: {fileID: 3051715917120518472}
   - component: {fileID: 4794361751554008996}
   - component: {fileID: 4796145161062244727}
+  - component: {fileID: 4207857566994843687}
   m_Layer: 9
   m_Name: Player
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1588,6 +1640,7 @@ Transform:
   m_Children:
   - {fileID: 3574849024573788872}
   - {fileID: 2844277949159132742}
+  - {fileID: 1176087654467238650}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1670,6 +1723,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _characterController: {fileID: 9136171042337119616}
   _animator: {fileID: 4458804980520085922}
+--- !u!65 &4207857566994843687
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6938683603801467234}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1, y: 1, z: 1}
+  m_Center: {x: 0, y: 0.5, z: 0}
 --- !u!1 &7266180022681717437
 GameObject:
   m_ObjectHideFlags: 0

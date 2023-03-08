@@ -17,6 +17,7 @@ namespace CodeBase.Infrastructure.Factory
     void Cleanup();
     GameObject CreatePlant(VegetationType vegetationType, Vector3 at, Transform parent);
     void CreateGarden(GameObject at);
-    string GetVegetationAssetPath(VegetationType vegetationType);
+    GameObject CreateHarvest(VegetationType vegetationType, Vector3 at, Transform parent = null);
+    GameObject CreateStack(VegetationType vegetationType, Vector3 at, Transform parent = null);
   }
 }

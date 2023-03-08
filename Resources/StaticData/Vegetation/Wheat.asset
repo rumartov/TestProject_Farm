@@ -12,4 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3ba8d3ea967e85048b33e0913ba39c0c, type: 3}
   m_Name: Wheat
   m_EditorClassIdentifier: 
+  VegetationType: 0
   GrowTime: 10
+  HarvestAmount: 10
+  HarvestPrefab: {fileID: 4740691761166474400, guid: 421c9c4ef4850594d86eb11f1dc6ada0, type: 3}

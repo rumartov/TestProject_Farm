@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using CodeBase.Infrastructure.AssetManagement;
 using CodeBase.Infrastructure.Factory;
 using CodeBase.Infrastructure.Services.PersistentProgress;
+using CodeBase.Services.Input;
 using CodeBase.Services.Randomizer;
 using DefaultNamespace;
 using Infrastructure.AssetManagement;
@@ -16,6 +17,7 @@ namespace Infrastructure.Factory
     private readonly IAssetProvider _assets;
     private readonly IRandomService _randomService;
     private readonly IStaticDataService _staticDataService;
+    private readonly IInputService _inputService;
 
     public List<ISavedProgressReader> ProgressReaders { get; } = new List<ISavedProgressReader>();
     public List<ISavedProgress> ProgressWriters { get; } = new List<ISavedProgress>();
@@ -23,16 +25,20 @@ namespace Infrastructure.Factory
     public GameObject PlayerGameObject { get; set; }
     public event Action PlayerCreated;
 
-    public GameFactory(IAssetProvider assets, IRandomService randomService, IStaticDataService staticDataService)
+    public GameFactory(IAssetProvider assets, IRandomService randomService, IStaticDataService staticDataService,
+      IInputService inputService)
     {
       _assets = assets;
       _randomService = randomService;
       _staticDataService = staticDataService;
+      _inputService = inputService;
     }
 
     public GameObject CreatePlayer(GameObject at)
     {
       PlayerGameObject = InstantiateRegistered(AssetPath.PlayerPath, at.transform.position);
+      Backpack backpack = PlayerGameObject.GetComponentInChildren<Backpack>();
+      backpack.Construct(_staticDataService.ForPlayer().BackpackSize, this, _inputService);
       PlayerCreated?.Invoke();
       return PlayerGameObject;
     }
@@ -51,10 +57,41 @@ namespace Infrastructure.Factory
       return InstantiateRegistered(assetPath, at, quaternion, parent);
     }
 
+    public GameObject CreateHarvest(VegetationType vegetationType, Vector3 at, Transform parent = null)
+    {
+        string harvestPath = GetHarvestAssetPath(vegetationType);
+        GameObject harvest = InstantiateRegistered(harvestPath, at, parent);
+        harvest.GetComponentInChildren<Harvest>().Construct(vegetationType);
+        
+        return harvest;
+    }
+
+    public GameObject CreateStack(VegetationType vegetationType, Vector3 at, Transform parent = null)
+    {
+      string stackPath = GetStackAssetPath(vegetationType);
+      GameObject stack = InstantiateRegistered(stackPath, at, parent);
+      stack.GetComponentInChildren<Harvest>().Construct(vegetationType);
+        
+      return stack;
+    }
+
+    public string GetStackAssetPath(VegetationType vegetationType)
+    {
+      string enumName = vegetationType.ConvertToString();
+      string assetPath = $"{AssetPath.Harvest}{enumName}Stack";
+      return assetPath;
+    }
     public string GetVegetationAssetPath(VegetationType vegetationType)
     {
       string enumName = vegetationType.ConvertToString();
       string assetPath = $"{AssetPath.Vegetation}{enumName}";
+      return assetPath;
+    }
+
+    public string GetHarvestAssetPath(VegetationType vegetationType)
+    {
+      string enumName = vegetationType.ConvertToString();
+      string assetPath = $"{AssetPath.Harvest}{enumName}Harvest";
       return assetPath;
     }
 
@@ -88,7 +125,7 @@ namespace Infrastructure.Factory
       RegisterProgressWatchers(gameObject);
       return gameObject;
     }
-    
+
     private void SetParentTransform(Transform parent, GameObject gameObject)
     {
       if (parent != null)

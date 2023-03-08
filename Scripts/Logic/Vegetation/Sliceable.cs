@@ -22,7 +22,7 @@ public class Sliceable : MonoBehaviour
             slice.transform.SetParent(transform.parent);
             SetSliceLayer(slice);
             slice.transform.position = transform.position;
-            if (slice.name == "Upper_Hull")
+                if (slice.name == "Upper_Hull")
             {
                 Rigidbody rigidbody = AddRigidbodyToSlice(slice);
                 AddBoxCollidersToSlice(slice, rigidbody);
