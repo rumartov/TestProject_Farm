@@ -1,31 +1,33 @@
-using System.Collections;
 using System.Collections.Generic;
-using CodeBase.Infrastructure.Factory;
+using Infrastructure.Factory;
 using Services.StaticData;
 using UnityEngine;
 
-public class Garden : MonoBehaviour
+namespace Logic.Vegetation
 {
-    private VegetationType _vegetationType;
-    private List<Sprout> _sprouts;
-    private IGameFactory _factory;
-    private IStaticDataService _staticDataService;
-
-    public void Construct(VegetationType vegetationType, IGameFactory factory, IStaticDataService staticDataService)
+    public class Garden : MonoBehaviour
     {
-        _vegetationType = vegetationType;
-        _factory = factory;
-        _staticDataService = staticDataService;
-        
-        _sprouts = new List<Sprout>(GetComponentsInChildren<Sprout>());
-        ConstructSprouts();
-    }
+        private VegetationType _vegetationType;
+        private List<Sprout> _sprouts;
+        private IGameFactory _factory;
+        private IStaticDataService _staticDataService;
 
-    private void ConstructSprouts()
-    {
-        foreach (Sprout sprout in _sprouts)
+        public void Construct(VegetationType vegetationType, IGameFactory factory, IStaticDataService staticDataService)
         {
-            sprout.Construct(_vegetationType, _factory, _staticDataService);
+            _vegetationType = vegetationType;
+            _factory = factory;
+            _staticDataService = staticDataService;
+        
+            _sprouts = new List<Sprout>(GetComponentsInChildren<Sprout>());
+            ConstructSprouts();
+        }
+
+        private void ConstructSprouts()
+        {
+            foreach (Sprout sprout in _sprouts)
+            {
+                sprout.Construct(_vegetationType, _factory, _staticDataService);
+            }
         }
     }
 }

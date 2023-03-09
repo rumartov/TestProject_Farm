@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace CodeBase.Data
+namespace Data
 {
   public static class DataExtensions
   {

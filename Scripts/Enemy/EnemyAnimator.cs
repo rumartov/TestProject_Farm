@@ -1,8 +1,8 @@
 ﻿using System;
-using CodeBase.Logic;
+using Logic;
 using UnityEngine;
 
-namespace CodeBase.Enemy
+namespace Enemy
 {
   public class EnemyAnimator : MonoBehaviour, IAnimationStateReader
   {

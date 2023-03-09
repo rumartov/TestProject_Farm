@@ -1,3 +1,4 @@
+using Logic.Vegetation;
 using UnityEngine;
 
 namespace StaticData

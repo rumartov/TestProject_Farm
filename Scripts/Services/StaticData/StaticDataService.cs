@@ -1,10 +1,10 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using Services.StaticData;
+using Logic.Vegetation;
 using StaticData;
 using UnityEngine;
 
-namespace CodeBase.Services.StaticData
+namespace Services.StaticData
 {
   public class StaticDataService : IStaticDataService
   {

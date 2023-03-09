@@ -1,79 +1,104 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using CodeBase;
-using CodeBase.Infrastructure.Factory;
-using CodeBase.Services.Input;
+using Infrastructure.Factory;
+using Logic.Vegetation;
+using Services.Input;
+using Services.PersistentProgress;
 using UnityEngine;
 
-public class Backpack : MonoBehaviour
+namespace Logic
 {
-    public Action Changed;
-    private List<GameObject> Container { get; set; }
-    private int _size;
-    private GameObject _backpackVisualItem;
-    
-    private IGameFactory _factory;
-    private IInputService _inputService;
-    
-    public void Construct(int size, IGameFactory factory, IInputService inputService)
+    public class Backpack : MonoBehaviour
     {
-        _size = size;
-        Container = new List<GameObject>(_size);
+        public List<GameObject> Container { get; private set; }
+        private int _size;
+        private GameObject _backpackVisualItem;
+    
+        private IInputService _inputService;
+        private IPersistentProgressService _progressService;
 
-        _factory = factory;
-        _inputService = inputService;
-    }
-
-    private void Update()
-    {
-        if (_inputService.Axis.sqrMagnitude > Constants.Epsilon)
+        public void Construct(int size, IInputService inputService, IPersistentProgressService progressService)
         {
-            PlayAnimation();
+            _size = size;
+            Container = new List<GameObject>(_size);
+
+            _inputService = inputService;
+            _progressService = progressService;
         }
-    }
-    
-    private void PlayAnimation()
-    {
-        //TODO Add dotween animation
-    }
 
-    public void AddItem(GameObject item)
-    {
-        if (Container.Count < _size)
+        private void Update()
         {
+            if (_inputService.Axis.sqrMagnitude > Constants.Epsilon)
+            {
+                PlayAnimation();
+            }
+        }
+    
+        private void PlayAnimation()
+        {
+            //TODO Add dotween animation
+        }
+
+        public void AddItem(GameObject item)
+        {
+            if (Container.Count == _size)
+                return;
+        
             Container.Add(item);
             item.SetActive(false);
+        
+            if (_backpackVisualItem == null)
+                EnableVisual(item);
+            
+            _progressService.Progress.WorldData.LootData.StackData.Add(1);
+
+            PlayItemAnimation();
         }
-        if (_backpackVisualItem == null)
+
+        private void PlayItemAnimation()
         {
-            EnableVisual(item);
+            // TODO add dotween animation
         }
-    }
 
-    public void RemoveItem(GameObject item)
-    {
-        Container.Remove(item);
-        if (Container.Count == 0)
+        public void RemoveItem(GameObject item)
         {
-            DisableVisual();
+            if (Container.Count > 0)
+            {
+                Container.Remove(item);
+            }
+            
+            if (Container.Count == 0)
+            {
+                DisableVisual();
+            }
+            
+            _progressService.Progress.WorldData.LootData.StackData.Remove(1);
         }
-    }
 
-    private void EnableVisual(GameObject item)
-    {
-        item.SetActive(true);
-        _backpackVisualItem = item;
-        _backpackVisualItem.GetComponent<Harvest>().enabled = false;
-    }
+        public void RemoveAllItems()
+        {
+            foreach (GameObject item in Container.ToList())
+            {
+                RemoveItem(item);
+            }
+        }
+        
+        private void EnableVisual(GameObject item)
+        {
+            item.SetActive(true);
+            _backpackVisualItem = item;
+            _backpackVisualItem.GetComponent<Harvest>().enabled = false;
+        }
 
-    private void DisableVisual()
-    {
-        Destroy(_backpackVisualItem);
-    }
+        private void DisableVisual()
+        {
+            Destroy(_backpackVisualItem);
+        }
 
-    public bool IsFull()
-    {
-        return Container.Count == _size;
+        public bool IsFull()
+        {
+            return Container.Count == _size;
+        }
     }
 }

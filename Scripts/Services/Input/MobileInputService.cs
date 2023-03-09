@@ -1,7 +1,6 @@
-using System.Security.Cryptography.X509Certificates;
 using UnityEngine;
 
-namespace CodeBase.Services.Input
+namespace Services.Input
 {
   public class MobileInputService : InputService
   {

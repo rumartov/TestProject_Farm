@@ -1,4 +1,7 @@
-public enum VegetationType
+namespace Logic.Vegetation
 {
-    Wheat
+    public enum VegetationType
+    {
+        Wheat
+    }
 }

@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.AI;
 
-namespace CodeBase.Enemy
+namespace Enemy
 {
   [RequireComponent(typeof(NavMeshAgent))]
   [RequireComponent(typeof(EnemyAnimator))]

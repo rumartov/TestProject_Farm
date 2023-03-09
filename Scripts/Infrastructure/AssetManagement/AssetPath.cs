@@ -1,4 +1,4 @@
-namespace CodeBase.Infrastructure.AssetManagement
+namespace Infrastructure.AssetManagement
 {
   public static class AssetPath
   {
@@ -7,5 +7,6 @@ namespace CodeBase.Infrastructure.AssetManagement
     public const string Vegetation = "Vegetation/";
     public const string Harvest = "Vegetation/Harvest/";
     public const string Garden = "Vegetation/Garden";
+    public const string Barn = "Buildings/BarnShop";
   }
 }

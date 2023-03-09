@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace StaticData
+namespace Services.StaticData
 {
     [CreateAssetMenu(fileName = "PlayerData", menuName = "Static Data/Player")]
     public class PlayerStaticData : ScriptableObject

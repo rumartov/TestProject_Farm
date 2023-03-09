@@ -1,12 +1,11 @@
 using System;
 using System.Collections.Generic;
-using CodeBase.Infrastructure.AssetManagement;
-using CodeBase.Infrastructure.Factory;
-using CodeBase.Infrastructure.Services.PersistentProgress;
-using CodeBase.Services.Input;
-using CodeBase.Services.Randomizer;
-using DefaultNamespace;
 using Infrastructure.AssetManagement;
+using Logic;
+using Logic.Vegetation;
+using Services.Input;
+using Services.PersistentProgress;
+using Services.Randomizer;
 using Services.StaticData;
 using UnityEngine;
 
@@ -18,6 +17,7 @@ namespace Infrastructure.Factory
     private readonly IRandomService _randomService;
     private readonly IStaticDataService _staticDataService;
     private readonly IInputService _inputService;
+    private readonly IPersistentProgressService _progressService;
 
     public List<ISavedProgressReader> ProgressReaders { get; } = new List<ISavedProgressReader>();
     public List<ISavedProgress> ProgressWriters { get; } = new List<ISavedProgress>();
@@ -26,19 +26,20 @@ namespace Infrastructure.Factory
     public event Action PlayerCreated;
 
     public GameFactory(IAssetProvider assets, IRandomService randomService, IStaticDataService staticDataService,
-      IInputService inputService)
+      IInputService inputService, IPersistentProgressService progressService)
     {
       _assets = assets;
       _randomService = randomService;
       _staticDataService = staticDataService;
       _inputService = inputService;
+      _progressService = progressService;
     }
 
     public GameObject CreatePlayer(GameObject at)
     {
       PlayerGameObject = InstantiateRegistered(AssetPath.PlayerPath, at.transform.position);
       Backpack backpack = PlayerGameObject.GetComponentInChildren<Backpack>();
-      backpack.Construct(_staticDataService.ForPlayer().BackpackSize, this, _inputService);
+      backpack.Construct(_staticDataService.ForPlayer().BackpackSize, _inputService, _progressService);
       PlayerCreated?.Invoke();
       return PlayerGameObject;
     }
@@ -49,6 +50,13 @@ namespace Infrastructure.Factory
       garden.GetComponent<Garden>().Construct(VegetationType.Wheat, this, _staticDataService);
     }
 
+    public void CreateBarn(GameObject at)
+    { 
+      GameObject barn = InstantiateRegistered(AssetPath.Barn, at.transform.position, Quaternion.Euler(0,-90,0));
+      
+      barn.GetComponentInChildren<BarnShop>().Construct(_progressService);
+    }
+    
     public GameObject CreatePlant(VegetationType vegetationType, Vector3 at, Transform parent)
     {
       var assetPath = GetVegetationAssetPath(vegetationType);
@@ -57,13 +65,11 @@ namespace Infrastructure.Factory
       return InstantiateRegistered(assetPath, at, quaternion, parent);
     }
 
-    public GameObject CreateHarvest(VegetationType vegetationType, Vector3 at, Transform parent = null)
+    public void CreateHarvest(VegetationType vegetationType, Vector3 at, Transform parent = null)
     {
         string harvestPath = GetHarvestAssetPath(vegetationType);
         GameObject harvest = InstantiateRegistered(harvestPath, at, parent);
         harvest.GetComponentInChildren<Harvest>().Construct(vegetationType);
-        
-        return harvest;
     }
 
     public GameObject CreateStack(VegetationType vegetationType, Vector3 at, Transform parent = null)
@@ -95,8 +101,15 @@ namespace Infrastructure.Factory
       return assetPath;
     }
 
-    public void CreateHud() =>
-      InstantiateRegistered(AssetPath.HudPath);
+    public void CreateHud()
+    {
+      GameObject hud = InstantiateRegistered(AssetPath.HudPath);
+     
+      hud.GetComponentInChildren<StackCounter>()
+        .Construct(_progressService.Progress.WorldData);
+      hud.GetComponentInChildren<MoneyCounter>()
+        .Construct(_progressService.Progress.WorldData);
+    }
 
     public void Cleanup()
     {

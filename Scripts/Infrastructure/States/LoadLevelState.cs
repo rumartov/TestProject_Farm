@@ -1,16 +1,16 @@
-﻿using System;
-using CodeBase.CameraLogic;
-using CodeBase.Infrastructure.Factory;
-using CodeBase.Infrastructure.Services.PersistentProgress;
-using CodeBase.Logic;
+﻿using CameraLogic;
+using Infrastructure.Factory;
+using Logic;
 using Services.PersistentProgress;
 using UnityEngine;
 
-namespace CodeBase.Infrastructure.States
+namespace Infrastructure.States
 {
   public class LoadLevelState : IPayloadedState<string>
   {
-    private const string InitialPointTag = "InitialPoint";
+    private const string PlayerSpawnPosition = "PlayerSpawnPosition";
+    private const string BarnSpawnPosition = "BarnSpawnPosition";
+    private const string GardenSpawnPosition = "GardenSpawnPosition";
 
     private readonly GameStateMachine _stateMachine;
     private readonly SceneLoader _sceneLoader;
@@ -53,12 +53,15 @@ namespace CodeBase.Infrastructure.States
 
     private void InitGameWorld()
     {
-      GameObject spawnPosition = GameObject.FindWithTag(InitialPointTag);
-      GameObject hero = _gameFactory.CreatePlayer(spawnPosition);
-      _gameFactory.CreateGarden(spawnPosition);
+      GameObject playerSpawnPosition = GameObject.FindWithTag(PlayerSpawnPosition);
+      GameObject barnSpawnPosition = GameObject.FindWithTag(BarnSpawnPosition);
+      GameObject gardenSpawnPosition = GameObject.FindWithTag(GardenSpawnPosition);
+      GameObject player = _gameFactory.CreatePlayer(playerSpawnPosition);
+      _gameFactory.CreateBarn(barnSpawnPosition);
+      _gameFactory.CreateGarden(gardenSpawnPosition);
       _gameFactory.CreateHud();
 
-      CameraFollow(hero);
+      CameraFollow(player);
     }
 
     private void CameraFollow(GameObject hero) =>

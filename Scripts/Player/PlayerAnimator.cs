@@ -1,8 +1,8 @@
 using System;
-using CodeBase.Logic;
+using Logic;
 using UnityEngine;
 
-namespace CodeBase.Hero
+namespace Player
 {
   public class PlayerAnimator : MonoBehaviour, IAnimationStateReader
   {

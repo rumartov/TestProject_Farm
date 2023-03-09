@@ -1,8 +1,6 @@
-﻿using UnityEditor;
-using UnityEditorInternal;
-using Random = UnityEngine.Random;
+﻿using Random = UnityEngine.Random;
 
-namespace CodeBase.Services.Randomizer
+namespace Services.Randomizer
 {
   public class RandomService : IRandomService
   {

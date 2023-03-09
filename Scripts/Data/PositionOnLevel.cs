@@ -1,6 +1,6 @@
 using System;
 
-namespace CodeBase.Data
+namespace Data
 {
   [Serializable]
   public class PositionOnLevel

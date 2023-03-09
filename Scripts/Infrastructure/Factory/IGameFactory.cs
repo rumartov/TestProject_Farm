@@ -1,10 +1,11 @@
 using System;
 using System.Collections.Generic;
-using CodeBase.Infrastructure.Services.PersistentProgress;
-using CodeBase.Services;
+using Logic.Vegetation;
+using Services;
+using Services.PersistentProgress;
 using UnityEngine;
 
-namespace CodeBase.Infrastructure.Factory
+namespace Infrastructure.Factory
 {
   public interface IGameFactory:IService
   {
@@ -17,7 +18,7 @@ namespace CodeBase.Infrastructure.Factory
     void Cleanup();
     GameObject CreatePlant(VegetationType vegetationType, Vector3 at, Transform parent);
     void CreateGarden(GameObject at);
-    GameObject CreateHarvest(VegetationType vegetationType, Vector3 at, Transform parent = null);
-    GameObject CreateStack(VegetationType vegetationType, Vector3 at, Transform parent = null);
+    void CreateBarn(GameObject barnSpawnPosition);
+    void CreateHarvest(VegetationType vegetationType, Vector3 at, Transform parent = null);
   }
 }

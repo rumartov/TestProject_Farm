@@ -1,16 +1,10 @@
-﻿using CodeBase.Infrastructure;
-using CodeBase.Infrastructure.AssetManagement;
-using CodeBase.Infrastructure.Factory;
-using CodeBase.Infrastructure.Services.PersistentProgress;
-using CodeBase.Infrastructure.Services.SaveLoad;
-using CodeBase.Infrastructure.States;
-using CodeBase.Services;
-using CodeBase.Services.Input;
-using CodeBase.Services.Randomizer;
-using CodeBase.Services.StaticData;
-using Infrastructure.AssetManagement;
+﻿using Infrastructure.AssetManagement;
 using Infrastructure.Factory;
+using Services;
+using Services.Input;
 using Services.PersistentProgress;
+using Services.Randomizer;
+using Services.SaveLoad;
 using Services.StaticData;
 using UnityEngine;
 
@@ -53,7 +47,9 @@ namespace Infrastructure.States
         _services.Single<IAssetProvider>(), 
         _services.Single<IRandomService>(), 
         _services.Single<IStaticDataService>(),
-        _services.Single<IInputService>()));
+        _services.Single<IInputService>(),
+        _services.Single<IPersistentProgressService>()));
+      
       _services.RegisterSingle<ISaveLoadService>(new SaveLoadService(_services.Single<IPersistentProgressService>(), 
         _services.Single<IGameFactory>()));
     }

@@ -1,10 +1,8 @@
-using System;
-using CodeBase.Data;
-using CodeBase.Infrastructure.Services.PersistentProgress;
-using CodeBase.Infrastructure.Services.SaveLoad;
+using Data;
 using Services.PersistentProgress;
+using Services.SaveLoad;
 
-namespace CodeBase.Infrastructure.States
+namespace Infrastructure.States
 {
   public class LoadProgressState : IState
   {
@@ -12,7 +10,8 @@ namespace CodeBase.Infrastructure.States
     private readonly IPersistentProgressService _progressService;
     private readonly ISaveLoadService _saveLoadProgress;
 
-    public LoadProgressState(GameStateMachine gameStateMachine, IPersistentProgressService progressService, ISaveLoadService saveLoadProgress)
+    public LoadProgressState(GameStateMachine gameStateMachine, IPersistentProgressService progressService,
+      ISaveLoadService saveLoadProgress)
     {
       _gameStateMachine = gameStateMachine;
       _progressService = progressService;

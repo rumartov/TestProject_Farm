@@ -1,13 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using CodeBase.Infrastructure.Factory;
-using CodeBase.Infrastructure.Services.SaveLoad;
-using CodeBase.Logic;
-using CodeBase.Services;
-using Infrastructure.States;
+using Infrastructure.Factory;
+using Logic;
+using Services;
 using Services.PersistentProgress;
+using Services.SaveLoad;
 
-namespace CodeBase.Infrastructure.States
+namespace Infrastructure.States
 {
   public class GameStateMachine
   {
