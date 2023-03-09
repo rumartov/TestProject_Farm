@@ -1,4 +1,5 @@
 ﻿using CameraLogic;
+using Cinemachine;
 using Infrastructure.Factory;
 using Logic;
 using Services.PersistentProgress;
@@ -64,7 +65,11 @@ namespace Infrastructure.States
       CameraFollow(player);
     }
 
-    private void CameraFollow(GameObject hero) =>
-      Camera.main.GetComponent<CameraFollow>().Follow(hero);
+    private void CameraFollow(GameObject target)
+    {
+      CinemachineVirtualCamera virtualCamera = GameObject.FindObjectOfType<CinemachineVirtualCamera>();
+      virtualCamera.Follow = target.transform;
+      virtualCamera.LookAt = target.transform;
+    }
   }
 }
