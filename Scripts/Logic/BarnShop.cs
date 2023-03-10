@@ -1,5 +1,6 @@
 using Logic;
 using Services.PersistentProgress;
+using Services.StaticData;
 using UnityEngine;
 
 public class BarnShop : MonoBehaviour
@@ -22,6 +23,6 @@ public class BarnShop : MonoBehaviour
     {
         Backpack backpack = other.GetComponentInChildren<Backpack>();
         _progressService.Progress.WorldData.LootData.MoneyData.Add(backpack.Container.Count);
-        backpack.RemoveAllItems();
+        backpack.UnPackAllItems(transform);
     }
 }

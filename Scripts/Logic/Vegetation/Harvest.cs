@@ -1,16 +1,45 @@
+using System;
+using DG.Tweening;
 using UnityEngine;
 
 namespace Logic.Vegetation
 {
     public class Harvest : MonoBehaviour
     {
-        public VegetationType VegetationType { get; private set; }
+        private VegetationType VegetationType { get; set; }
+
         private bool _pickedUp;
-    
+
         public void Construct(VegetationType vegetationType)
         {
             VegetationType = vegetationType;
             _pickedUp = false;
+        }
+
+        public void PlayPickUpAnimation(Transform endPosition, Action onComplete)
+        {
+            GameObject target = gameObject;
+            Transform targetTransform = target.transform;
+            
+            Vector3 height = targetTransform.position + Vector3.up * 2;
+            Tweener doMoveUp = targetTransform.DOMove(height, 1);
+            
+            doMoveUp.OnComplete(() =>
+            {
+                Tweener doMoveFollow = targetTransform.DOMove(endPosition.position, 0.09f);
+            
+                doMoveFollow.OnUpdate(() => {
+                    if(Vector3.Distance(endPosition.position, targetTransform.position) > 0.5f) {
+                        doMoveFollow.ChangeEndValue(endPosition.position, true);
+                    }
+                });
+
+                doMoveFollow.OnComplete(() =>
+                {
+                    target.SetActive(false);
+                    onComplete?.Invoke();
+                });
+            });
         }
 
         private void OnTriggerEnter(Collider collider)
@@ -27,18 +56,20 @@ namespace Logic.Vegetation
                 return;
             if (_pickedUp)
                 return;
-            backpack.AddItem(gameObject);
-            PlayAnimation();
-            gameObject.transform.position = backpack.transform.position;
-            gameObject.transform.SetParent(backpack.transform);
-
+            
+            PlayPickUpAnimation(backpack.transform, () => AddItemToBackpack(backpack));
+         
             _pickedUp = true;
         }
 
-        private void PlayAnimation()
+        private void AddItemToBackpack(Backpack backpack)
         {
-            // TODO add dotween 
-            //throw new NotImplementedException();
+            GameObject harvestGameObject = transform.parent.gameObject;
+
+            backpack.PackItem(gameObject);
+            gameObject.transform.SetParent(backpack.transform);
+               
+            Destroy(harvestGameObject);
         }
     }
 }
