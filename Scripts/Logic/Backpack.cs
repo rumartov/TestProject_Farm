@@ -80,17 +80,17 @@ namespace Logic
             _progressService.Progress.WorldData.LootData.StackData.Add(1);
         }
 
-        private void UnPackItem(GameObject item, Transform target)
+        public void UnPackItem(GameObject item, Transform target)
         {
             if (Container.Count > 0)
             {
-                item.transform.SetParent(target);
                 item.SetActive(true);
                 item.GetComponent<Harvest>()
                     .PlayPickUpAnimation(target, 
                         () =>
                         {
                             Container.Remove(item);
+                            item.transform.SetParent(target);
                             if (Container.Count == 0)
                                 DisableVisual();
                         });

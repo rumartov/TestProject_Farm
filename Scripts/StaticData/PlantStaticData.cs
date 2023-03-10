@@ -10,7 +10,10 @@ namespace StaticData
 
         [Range(1,100)]
         public float GrowTime = 10;
-        
+
+        [Range(1, 100)] 
+        public int SellCost = 15;
+
         [Range(1,100)]
         public float HarvestAmount = 10;
 

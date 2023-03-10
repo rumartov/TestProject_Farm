@@ -54,7 +54,7 @@ namespace Infrastructure.Factory
     { 
       GameObject barn = InstantiateRegistered(AssetPath.Barn, at.transform.position, Quaternion.Euler(0,-90,0));
       
-      barn.GetComponentInChildren<BarnShop>().Construct(_progressService);
+      barn.GetComponentInChildren<BarnShop>().Construct(_progressService, _staticDataService);
     }
     
     public GameObject CreatePlant(VegetationType vegetationType, Vector3 at, Transform parent)

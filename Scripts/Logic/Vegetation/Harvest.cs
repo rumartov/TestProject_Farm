@@ -6,7 +6,7 @@ namespace Logic.Vegetation
 {
     public class Harvest : MonoBehaviour
     {
-        private VegetationType VegetationType { get; set; }
+        public VegetationType VegetationType { get; set; }
 
         private bool _pickedUp;
 
