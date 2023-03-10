@@ -14,7 +14,6 @@ namespace Player
         private PlayerAnimator _animator;
         private Collider[] _hits = new Collider[10];
         private int _layerMask;
-        // TODO integrate static data
         private float _radius;
         private void Awake()
         {
@@ -51,7 +50,7 @@ namespace Player
 
     
         private int Hit() => 
-            Physics.OverlapSphereNonAlloc(StartPoint() /*+ transform.forward*/,
+            Physics.OverlapSphereNonAlloc(StartPoint(),
                 _radius, _hits, _layerMask);
     
 
