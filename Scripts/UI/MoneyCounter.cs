@@ -1,4 +1,5 @@
 using Data;
+using DG.Tweening;
 using TMPro;
 using UnityEngine;
 
@@ -16,5 +17,11 @@ public class MoneyCounter: MonoBehaviour
     private void UpdateCounter()
     {
         counter.text = $"{_worldData.LootData.MoneyData.Collected}";
-    } 
+        PlayAnimation();
+    }
+
+    public void PlayAnimation()
+    {
+        counter.transform.DOShakePosition(1);
+    }
 }

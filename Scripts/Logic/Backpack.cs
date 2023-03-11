@@ -11,10 +11,10 @@ namespace Logic
 {
     public class Backpack : MonoBehaviour
     {
-        public List<GameObject> Container { get; private set; }
+        public int Size { get; private set; }
+        public List<GameObject> Container { get; set; }
         public Transform itemLook;
 
-        private int _size;
         private GameObject _backpackVisualItem;
     
         private IInputService _inputService;
@@ -24,8 +24,8 @@ namespace Logic
 
         public void Construct(int size, IInputService inputService, IPersistentProgressService progressService)
         {
-            _size = size;
-            Container = new List<GameObject>(_size);
+            Size = size;
+            Container = new List<GameObject>(Size);
             _isAnimationPlaying = false;
             
             _inputService = inputService;
@@ -69,7 +69,7 @@ namespace Logic
 
         public void PackItem(GameObject item)
         {
-            if (Container.Count == _size)
+            if (Container.Count == Size)
                 return;
         
             Container.Add(item);
@@ -82,6 +82,7 @@ namespace Logic
 
         public void UnPackItem(GameObject item, Transform target)
         {
+            DisableVisual();
             if (Container.Count > 0)
             {
                 item.SetActive(true);
@@ -97,12 +98,6 @@ namespace Logic
             }
             
             _progressService.Progress.WorldData.LootData.StackData.Remove(1);
-        }
-
-        public void UnPackAllItems(Transform target)
-        {
-            DisableVisual();
-            StartCoroutine(Unpack(Container.ToList(), target, 0.1f));
         }
 
         private IEnumerator Unpack(List<GameObject> container, Transform target, float decay)
@@ -129,7 +124,7 @@ namespace Logic
 
         public bool IsFull()
         {
-            return Container.Count == _size;
+            return Container.Count == Size;
         }
     }
 }

@@ -8,5 +8,6 @@ namespace Infrastructure.AssetManagement
     public const string Harvest = "Vegetation/Harvest/";
     public const string Garden = "Vegetation/Garden";
     public const string Barn = "Buildings/BarnShop";
+    public const string CoinIcon = "Hud/Coin";
   }
 }

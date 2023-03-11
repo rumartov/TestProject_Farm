@@ -23,6 +23,8 @@ namespace Infrastructure.Factory
     public List<ISavedProgress> ProgressWriters { get; } = new List<ISavedProgress>();
     
     public GameObject PlayerGameObject { get; set; }
+    public GameObject Hud { get; set; }
+    
     public event Action PlayerCreated;
 
     public GameFactory(IAssetProvider assets, IRandomService randomService, IStaticDataService staticDataService,
@@ -54,9 +56,14 @@ namespace Infrastructure.Factory
     { 
       GameObject barn = InstantiateRegistered(AssetPath.Barn, at.transform.position, Quaternion.Euler(0,-90,0));
       
-      barn.GetComponentInChildren<BarnShop>().Construct(_progressService, _staticDataService);
+      barn.GetComponentInChildren<BarnShop>().Construct(_progressService, _staticDataService, this);
     }
-    
+
+    public GameObject CreateCoinIcon(GameObject at)
+    {
+      return InstantiateRegistered(AssetPath.CoinIcon, at.transform.position);
+    }
+
     public GameObject CreatePlant(VegetationType vegetationType, Vector3 at, Transform parent)
     {
       var assetPath = GetVegetationAssetPath(vegetationType);
@@ -109,6 +116,13 @@ namespace Infrastructure.Factory
         .Construct(_progressService.Progress.WorldData);
       hud.GetComponentInChildren<MoneyCounter>()
         .Construct(_progressService.Progress.WorldData);
+
+      Canvas canvas = hud.GetComponent<Canvas>();
+      canvas.renderMode = RenderMode.ScreenSpaceCamera;
+      canvas.worldCamera = Camera.main;
+      canvas.planeDistance = 1;
+
+      Hud = hud;
     }
 
     public void Cleanup()

@@ -22,11 +22,11 @@ namespace Logic.Vegetation
             Transform targetTransform = target.transform;
             
             Vector3 height = targetTransform.position + Vector3.up * 2;
-            Tweener doMoveUp = targetTransform.DOMove(height, 1);
+            Tweener doMoveUp = targetTransform.DOMove(height, Constants.PickUpStackTime);
             
             doMoveUp.OnComplete(() =>
             {
-                Tweener doMoveFollow = targetTransform.DOMove(endPosition.position, 0.09f);
+                Tweener doMoveFollow = targetTransform.DOMove(endPosition.position, Constants.FollowStackTime);
             
                 doMoveFollow.OnUpdate(() => {
                     if(Vector3.Distance(endPosition.position, targetTransform.position) > 0.5f) {
