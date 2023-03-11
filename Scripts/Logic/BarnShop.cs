@@ -17,6 +17,7 @@ public class BarnShop : MonoBehaviour
     private IPersistentProgressService _progressService;
     private IStaticDataService _staticData;
     private IGameFactory _factory;
+    private bool _sellingItem;
 
     public void Construct(IPersistentProgressService progressService, IStaticDataService staticData, 
         IGameFactory factory)
@@ -24,41 +25,39 @@ public class BarnShop : MonoBehaviour
         _progressService = progressService;
         _staticData = staticData;
         _factory = factory;
+        _sellingItem = false;
     }
-    private void OnTriggerEnter(Collider other)
+    private void OnTriggerStay(Collider other)
     {
         if (other.CompareTag("Player"))
         {
-            SellStacks(other);
+            if (!_sellingItem)
+            {
+                StartCoroutine(SellStack(other));
+            }
         }
     }
-    
-    private void SellStacks(Collider other)
+
+    private IEnumerator SellStack(Collider other)
     {
         Backpack backpack = other.GetComponentInChildren<Backpack>();
 
-        GameObject[] container = new GameObject[backpack.Container.Count];
-        backpack.Container.CopyTo(container);
+        if (backpack.IsEmpty())
+            yield break;
 
-        StartCoroutine(SellItem(container.ToList(), backpack));
-    }
-
-    private IEnumerator SellItem(List<GameObject> container, Backpack backpack)
-    {
-        foreach (GameObject item in container)
-        {
-            VegetationType plantType = item.GetComponent<Harvest>().VegetationType;
-
-            backpack.UnPackItem(item, transform);
-            
-            yield return new WaitForSeconds(Constants.StackToCoinDecay);
-
-            PlayAnimation(() => SellItem(plantType));
-        }
+        _sellingItem = true;
         
-        // TODO триггереится когда нажимаешь на колайдер добавить проверку что несколько раз не запускалось
-    }
+        GameObject item = backpack.Container.First();
+        
+        VegetationType plantType = item.GetComponent<Harvest>().VegetationType;
 
+        backpack.UnPackItem(item, transform);
+            
+        yield return new WaitForSeconds(Constants.StackToCoinDecay);
+
+        PlayAnimation(() => SellItem(plantType));
+    }
+    
     private void PlayAnimation(Action onComplete)
     {
         GameObject coinIcon = _factory.CreateCoinIcon(gameObject);
@@ -73,9 +72,7 @@ public class BarnShop : MonoBehaviour
         
         Tweener doScale = coinIcon.transform.DOScale(
             Vector3.zero, Constants.CoinScale).Pause();
-        
-        //doMove.SetDelay(Constants.StackToCoinDecay);
-        
+
         doMove.OnUpdate(() =>
         {
             if (Vector3.Distance(moneyCounter.position, coinIcon.transform.position) > 0.5f)
@@ -95,5 +92,6 @@ public class BarnShop : MonoBehaviour
     {
         _progressService.Progress.WorldData.LootData.MoneyData
             .Add(_staticData.ForPlant(plantType).SellCost);
+        _sellingItem = false;
     }
 }

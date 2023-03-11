@@ -22,6 +22,6 @@ public class MoneyCounter: MonoBehaviour
 
     public void PlayAnimation()
     {
-        counter.transform.DOShakePosition(1);
+        transform.DOShakePosition(1, 10, 10);
     }
 }

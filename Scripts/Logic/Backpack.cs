@@ -126,5 +126,10 @@ namespace Logic
         {
             return Container.Count == Size;
         }
+        
+        public bool IsEmpty()
+        {
+            return Container.Count == 0;
+        }
     }
 }
