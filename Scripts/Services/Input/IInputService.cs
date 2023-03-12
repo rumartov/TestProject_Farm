@@ -7,5 +7,7 @@ namespace Services.Input
         Vector2 Axis { get; }
 
         bool IsActionButtonUp();
+
+        bool IsMoving();
     }
 }

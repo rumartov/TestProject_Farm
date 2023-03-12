@@ -42,11 +42,6 @@ namespace Player
             _animator.SetTrigger(SliceHash);
         }
 
-        public void ResetToIdle()
-        {
-            _animator.Play(_idleStateHash, -1);
-        }
-
         private AnimatorState StateFor(int stateHash)
         {
             AnimatorState state;
