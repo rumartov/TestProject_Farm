@@ -2,15 +2,16 @@ using System;
 
 namespace Data
 {
-  [Serializable]
-  public class WorldData
-  {
-    public PositionOnLevel PositionOnLevel;
-    public LootData LootData;
-    public WorldData(string initialLevel)
+    [Serializable]
+    public class WorldData
     {
-      PositionOnLevel = new PositionOnLevel(initialLevel);
-      LootData = new LootData();
+        public PositionOnLevel PositionOnLevel;
+        public LootData LootData;
+
+        public WorldData(string initialLevel)
+        {
+            PositionOnLevel = new PositionOnLevel(initialLevel);
+            LootData = new LootData();
+        }
     }
-  }
 }

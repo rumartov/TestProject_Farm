@@ -2,8 +2,8 @@ using Data;
 
 namespace Services.PersistentProgress
 {
-  public interface ISavedProgressReader
-  {
-    void LoadProgress(PlayerProgress progress);
-  }
+    public interface ISavedProgressReader
+    {
+        void LoadProgress(PlayerProgress progress);
+    }
 }

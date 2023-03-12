@@ -1,6 +1,5 @@
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using DG.Tweening;
 using Logic.Vegetation;
 using Services.Input;
@@ -11,32 +10,32 @@ namespace Logic
 {
     public class Backpack : MonoBehaviour
     {
-        public int Size { get; private set; }
-        public List<GameObject> Container { get; set; }
         public Transform itemLook;
 
         private GameObject _backpackVisualItem;
-    
+
         private IInputService _inputService;
-        private IPersistentProgressService _progressService;
 
         private bool _isAnimationPlaying;
-
-        public void Construct(int size, IInputService inputService, IPersistentProgressService progressService)
-        {
-            Size = size;
-            Container = new List<GameObject>(Size);
-            _isAnimationPlaying = false;
-            
-            _inputService = inputService;
-            _progressService = progressService;
-        }
+        private IPersistentProgressService _progressService;
+        public int Size { get; private set; }
+        public List<GameObject> Container { get; set; }
 
         private void Update()
         {
             RotateBackpack();
 
             PlayAnimation(_backpackVisualItem);
+        }
+
+        public void Construct(int size, IInputService inputService, IPersistentProgressService progressService)
+        {
+            Size = size;
+            Container = new List<GameObject>(Size);
+            _isAnimationPlaying = false;
+
+            _inputService = inputService;
+            _progressService = progressService;
         }
 
         private void PlayAnimation(GameObject target)
@@ -51,10 +50,7 @@ namespace Logic
 
         private void RotateBackpack()
         {
-            if (!IsBackpackVisualNull())
-            {
-                _backpackVisualItem.transform.LookAt(itemLook);
-            }
+            if (!IsBackpackVisualNull()) _backpackVisualItem.transform.LookAt(itemLook);
         }
 
         private bool IsPlayerMoving()
@@ -71,12 +67,12 @@ namespace Logic
         {
             if (Container.Count == Size)
                 return;
-        
+
             Container.Add(item);
-        
+
             if (_backpackVisualItem == null)
                 EnableVisual(item);
-            
+
             _progressService.Progress.WorldData.LootData.StackData.Add(1);
         }
 
@@ -87,7 +83,7 @@ namespace Logic
             {
                 item.SetActive(true);
                 item.GetComponent<Harvest>()
-                    .PlayPickUpAnimation(target, 
+                    .PlayPickUpAnimation(target,
                         () =>
                         {
                             Container.Remove(item);
@@ -96,13 +92,13 @@ namespace Logic
                                 DisableVisual();
                         });
             }
-            
+
             _progressService.Progress.WorldData.LootData.StackData.Remove(1);
         }
 
         private IEnumerator Unpack(List<GameObject> container, Transform target, float decay)
         {
-            foreach (GameObject item in container)
+            foreach (var item in container)
             {
                 yield return new WaitForSeconds(decay);
                 UnPackItem(item, target);
@@ -126,7 +122,7 @@ namespace Logic
         {
             return Container.Count == Size;
         }
-        
+
         public bool IsEmpty()
         {
             return Container.Count == 0;

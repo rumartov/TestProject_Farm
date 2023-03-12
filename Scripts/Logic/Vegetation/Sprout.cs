@@ -7,17 +7,22 @@ namespace Logic.Vegetation
 {
     public class Sprout : MonoBehaviour
     {
-        private float _growTime;
-
-        private IStaticDataService _staticDataService;
         private IGameFactory _factory;
-    
-        private VegetationType _vegetationType;
+        private float _growTime;
         private float _growTimer;
         private bool _isCropped;
         private GameObject _plant;
         private PlantStaticData _plantStaticData;
-    
+
+        private IStaticDataService _staticDataService;
+
+        private VegetationType _vegetationType;
+
+        private void Update()
+        {
+            UpdateTimer();
+        }
+
         public void Construct(VegetationType vegetationType, IGameFactory factory, IStaticDataService staticDataService)
         {
             _factory = factory;
@@ -26,33 +31,20 @@ namespace Logic.Vegetation
             _isCropped = true;
         }
 
-        private void Update()
-        {
-            UpdateTimer();
-        }
-
         private void UpdateTimer()
         {
             if (IsTimeToGrow())
-            {
                 Grow();
-            }
             else
-            {
                 CooldownTimer();
-            }
         }
 
         private void CooldownTimer()
         {
             if (_growTimer <= 0)
-            {
                 _growTimer = 0;
-            }
             else
-            {
                 _growTimer -= Time.deltaTime;
-            }
         }
 
         private bool IsTimeToGrow()

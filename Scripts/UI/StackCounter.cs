@@ -16,5 +16,5 @@ public class StackCounter : MonoBehaviour
     private void UpdateCounter()
     {
         counter.text = $"{_worldData.LootData.StackData.Collected}";
-    } 
+    }
 }

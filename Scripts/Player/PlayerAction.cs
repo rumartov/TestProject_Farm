@@ -1,3 +1,4 @@
+using System.Collections;
 using Logic.Vegetation;
 using Services;
 using Services.Input;
@@ -9,17 +10,18 @@ namespace Player
     {
         public CharacterController CharacterController;
         public GameObject tool;
-    
-        private IInputService _inputService;
         private PlayerAnimator _animator;
-        private Collider[] _hits = new Collider[10];
+        private readonly Collider[] _hits = new Collider[10];
+
+        private IInputService _inputService;
         private int _layerMask;
         private float _radius;
+
         private void Awake()
         {
             _inputService = AllServices.Container.Single<IInputService>();
             _animator = GetComponent<PlayerAnimator>();
-        
+
             _layerMask = 1 << LayerMask.NameToLayer("Vegetation");
             _radius = 1;
         }
@@ -28,19 +30,18 @@ namespace Player
         {
             if (_inputService.IsActionButtonUp() && !_animator.IsSlicing)
             {
-                OnAction();
+                StartCoroutine(OnAction());
                 _animator.PlaySlice();
             }
         }
-    
-        //TODO Add OnTriggerEnter Slice Implementation
 
-        private void OnAction()
+        private IEnumerator OnAction()
         {
+            yield return new WaitForSeconds(0.5f);
             PhysicsDebug.DrawDebug(StartPoint() + transform.forward, _radius, 1.0f);
-            for (int i = 0; i < Hit(); ++i)
+            for (var i = 0; i < Hit(); ++i)
             {
-                Vector3 planeWorldPosition = tool.GetComponent<BoxCollider>().size;
+                var planeWorldPosition = tool.GetComponent<BoxCollider>().size;
 
                 //PhysicsDebug.DrawDebug(planeWorldPosition, _radius, 10.0f);
                 _hits[i].GetComponent<Sliceable>().Slice(
@@ -48,13 +49,17 @@ namespace Player
             }
         }
 
-    
-        private int Hit() => 
-            Physics.OverlapSphereNonAlloc(StartPoint(),
-                _radius, _hits, _layerMask);
-    
 
-        private Vector3 StartPoint() =>
-            new Vector3(transform.position.x, CharacterController.center.y / 2, transform.position.z);
+        private int Hit()
+        {
+            return Physics.OverlapSphereNonAlloc(StartPoint(),
+                _radius, _hits, _layerMask);
+        }
+
+
+        private Vector3 StartPoint()
+        {
+            return new Vector3(transform.position.x, CharacterController.center.y / 2, transform.position.z);
+        }
     }
 }

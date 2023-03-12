@@ -3,7 +3,7 @@ using DG.Tweening;
 using TMPro;
 using UnityEngine;
 
-public class MoneyCounter: MonoBehaviour
+public class MoneyCounter : MonoBehaviour
 {
     [SerializeField] private TextMeshProUGUI counter;
     private WorldData _worldData;
@@ -22,6 +22,6 @@ public class MoneyCounter: MonoBehaviour
 
     public void PlayAnimation()
     {
-        transform.DOShakePosition(1, 10, 10);
+        transform.DOShakePosition(1, 10);
     }
 }

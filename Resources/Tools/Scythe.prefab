@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 6637109127286883281}
   - component: {fileID: 7761377796003936023}
   m_Layer: 10
-  m_Name: ScytheV1
+  m_Name: Scythe
   m_TagString: Slicer
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

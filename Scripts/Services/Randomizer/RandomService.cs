@@ -1,12 +1,12 @@
-﻿using Random = UnityEngine.Random;
+﻿using UnityEngine;
 
 namespace Services.Randomizer
 {
-  public class RandomService : IRandomService
-  {
-    public int Next(int min, int max)
+    public class RandomService : IRandomService
     {
-      return Random.Range(min, max);
+        public int Next(int min, int max)
+        {
+            return Random.Range(min, max);
+        }
     }
-  }
 }

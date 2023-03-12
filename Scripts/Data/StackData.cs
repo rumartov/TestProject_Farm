@@ -13,7 +13,7 @@ namespace Data
             Collected += value;
             Changed?.Invoke();
         }
-        
+
         public void Remove(int value)
         {
             Collected -= value;

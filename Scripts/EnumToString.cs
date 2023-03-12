@@ -2,9 +2,8 @@
 
 public static class EnumToString
 {
-    public static String ConvertToString(this Enum eff)
+    public static string ConvertToString(this Enum eff)
     {
         return Enum.GetName(eff.GetType(), eff);
     }
-
 }

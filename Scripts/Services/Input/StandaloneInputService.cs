@@ -2,26 +2,23 @@ using UnityEngine;
 
 namespace Services.Input
 {
-  public class StandaloneInputService : InputService
-  {
-    public override Vector2 Axis
+    public class StandaloneInputService : InputService
     {
-      get
-      {
-        Vector2 axis = SimpleInputAxis();
-
-        if (axis == Vector2.zero)
+        public override Vector2 Axis
         {
-          axis = UnityAxis();
+            get
+            {
+                var axis = SimpleInputAxis();
+
+                if (axis == Vector2.zero) axis = UnityAxis();
+
+                return axis;
+            }
         }
 
-        return axis;
-      }
+        private static Vector2 UnityAxis()
+        {
+            return new Vector2(UnityEngine.Input.GetAxis(Horizontal), UnityEngine.Input.GetAxis(Vertical));
+        }
     }
-
-    private static Vector2 UnityAxis()
-    {
-      return new Vector2(UnityEngine.Input.GetAxis(Horizontal), UnityEngine.Input.GetAxis(Vertical));
-    }
-  }
 }
